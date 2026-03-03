@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Elijah Cortez</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   PALETTE
+   --black:    #060606
+   --deep:     #0d0d0d
+   --card:     #131313
+   --border:   #222222
+   --mid:      #333333
+   --muted:    #666666
+   --chrome:   #aaaaaa
+   --silver:   #cccccc
+   --bright:   #e8e8e8
+   --white:    #f5f5f5
+   Font 1: Bebas Neue (tall display)
+   Font 2: Share Tech Mono (mono body)
+===================================================== */
+:root{
+  --black:#060606;
+  --deep:#0d0d0d;
+  --card:#131313;
+  --border:#222222;
+  --mid:#333333;
+  --muted:#666666;
+  --chrome:#aaaaaa;
+  --silver:#cccccc;
+  --bright:#e8e8e8;
+  --white:#f5f5f5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--chrome);
+  font-family:'Share Tech Mono',monospace;
+  font-size:13px;
+  line-height:1.75;
+  overflow-x:hidden;
+  cursor:crosshair;
+  /* brushed steel horizontal lines */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.012) 3px,
+      rgba(255,255,255,0.012) 4px
+    );
+}
+a{color:var(--silver);text-decoration:none;transition:color .2s}
+a:hover{color:var(--white)}
+h1,h2,h3,h4{font-family:'Cinzel',serif;color:var(--white);letter-spacing:.06em}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--mid)}
+::-webkit-scrollbar-thumb:hover{background:var(--chrome)}
+
+/* ─────────────────────────────────────────
+   HEADER
+───────────────────────────────────────── */
+header{
+  position:relative;
+  background:var(--deep);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+/* top chrome bar */
+header::before{
+  content:'';
+  display:block;
+  height:4px;
+  background:linear-gradient(90deg,
+    var(--black) 0%,
+    var(--mid) 15%,
+    var(--chrome) 30%,
+    var(--white) 50%,
+    var(--chrome) 70%,
+    var(--mid) 85%,
+    var(--black) 100%
+  );
+}
+/* bottom chrome bar */
+header::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent,var(--mid) 30%,var(--chrome) 50%,var(--mid) 70%,transparent
+  );
+}
+
+/* geometric watermark */
+.wm{
+  position:absolute;
+  inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  overflow:hidden;
+}
+.wm svg{
+  width:560px;height:560px;
+  opacity:.03;
+  fill:var(--white);
+}
+
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:1040px;
+  margin:0 auto;
+  padding:56px 36px 52px;
+  text-align:center;
+}
+
+.h-rule{
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent,var(--border) 20%,var(--muted) 50%,var(--border) 80%,transparent
+  );
+  margin-bottom:24px;
+}
+.h-rule.bot{margin-top:32px;margin-bottom:0}
+
+h1.name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4.5rem,13vw,10rem);
+  font-weight:400;
+  letter-spacing:.2em;
+  line-height:.9;
+  /* chrome gradient on the text itself */
+  background:linear-gradient(180deg,
+    var(--white)   0%,
+    var(--bright)  20%,
+    var(--silver)  45%,
+    var(--chrome)  70%,
+    var(--mid)    100%
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:12px;
+  animation:nameGlow 5s ease-in-out infinite alternate;
+}
+@keyframes nameGlow{
+  from{filter:drop-shadow(0 2px 20px rgba(255,255,255,.04))}
+  to  {filter:drop-shadow(0 2px 40px rgba(255,255,255,.12))}
+}
+
+.subtitle{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.65em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+
+.contacts{
+  display:flex;flex-wrap:wrap;
+  justify-content:center;
+  gap:6px 24px;
+  font-size:.68rem;
+  color:var(--muted);
+}
+.contacts span{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.pip{width:3px;height:3px;background:var(--mid);flex-shrink:0}
+
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,6,6,.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:center;
+}
+nav a{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.72rem;
+  letter-spacing:.38em;
+  text-transform:uppercase;
+  color:var(--mid);
+  padding:14px 28px;
+  border-right:1px solid var(--border);
+  transition:color .2s,background .2s;
+  position:relative;
+}
+nav a:first-child{border-left:1px solid var(--border)}
+nav a::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:50%;right:50%;
+  height:2px;
+  background:var(--silver);
+  transition:left .3s,right .3s;
+}
+nav a:hover{color:var(--silver);background:rgba(255,255,255,.02)}
+nav a:hover::after{left:0;right:0}
+
+/* ─────────────────────────────────────────
+   MAIN
+───────────────────────────────────────── */
+main{
+  position:relative;z-index:2;
+  max-width:1060px;
+  margin:0 auto;
+  padding:80px 28px 100px;
+  display:flex;flex-direction:column;gap:80px;
+}
+
+/* ── section reveal ── */
+.sec{
+  opacity:0;
+  transform:translateY(28px);
+  animation:rise .7s ease forwards;
+}
+.sec:nth-child(1){animation-delay:.1s}
+.sec:nth-child(2){animation-delay:.2s}
+.sec:nth-child(3){animation-delay:.3s}
+.sec:nth-child(4){animation-delay:.4s}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+/* ── section heading ── */
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;
+  letter-spacing:.55em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:26px;
+  display:flex;align-items:center;gap:16px;
+}
+.sec-title::before{
+  content:'';width:24px;height:2px;flex-shrink:0;
+  background:linear-gradient(to right,transparent,var(--muted));
+}
+.sec-title::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(to right,var(--border),transparent);
+}
+
+/* ── panel box ── */
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:36px 40px;
+  position:relative;
+}
+/* chrome top line */
+.panel::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,
+    transparent,var(--border) 20%,var(--muted) 50%,var(--border) 80%,transparent
+  );
+}
+/* machined corner TL */
+.panel::after{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:16px;height:16px;
+  border-top:2px solid var(--mid);
+  border-left:2px solid var(--mid);
+}
+/* machined corner BR via span */
+.panel-br{
+  position:absolute;bottom:0;right:0;
+  width:16px;height:16px;
+  border-bottom:2px solid var(--mid);
+  border-right:2px solid var(--mid);
+}
+
+/* ─────────────────────────────────────────
+   EDUCATION
+───────────────────────────────────────── */
+.edu{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;flex-wrap:wrap;
+  gap:14px;padding:22px 0;
+  border-bottom:1px solid var(--border);
+}
+.edu:first-child{padding-top:0}
+.edu:last-child{border-bottom:none;padding-bottom:0}
+.edu h3{font-size:.96rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.edu-deg{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted)}
+
+.date{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.65rem;color:var(--silver);
+  border:1px solid var(--mid);
+  padding:6px 14px;
+  white-space:nowrap;
+  letter-spacing:.1em;
+  background:var(--border);
+  flex-shrink:0;
+  position:relative;
+}
+/* notch corners */
+.date::before{content:'';position:absolute;top:3px;left:3px;width:5px;height:5px;border-top:1px solid var(--chrome);border-left:1px solid var(--chrome)}
+.date::after {content:'';position:absolute;bottom:3px;right:3px;width:5px;height:5px;border-bottom:1px solid var(--chrome);border-right:1px solid var(--chrome)}
+
+/* ─────────────────────────────────────────
+   PROJECTS GRID
+───────────────────────────────────────── */
+.grid-proj{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:2px;
+  background:var(--border);
+}
+
+.card{
+  background:var(--card);
+  padding:26px 24px;
+  display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+/* chrome sweep on hover */
+.card::before{
+  content:'';
+  position:absolute;top:0;left:-110%;right:110%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--silver),transparent);
+  transition:left .5s ease,right .5s ease;
+}
+/* machined corner */
+.card::after{
+  content:'';
+  position:absolute;bottom:0;right:0;
+  width:18px;height:18px;
+  border-bottom:1px solid var(--mid);
+  border-right:1px solid var(--mid);
+  transition:border-color .3s;
+}
+.card:hover{background:#101010}
+.card:hover::before{left:0;right:0}
+.card:hover::after{border-color:var(--chrome)}
+
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card-title{
+  font-family:'Cinzel',serif;
+  font-size:.78rem;font-weight:700;
+  color:var(--white);letter-spacing:.07em;line-height:1.4;
+}
+.repo{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.6rem;color:var(--mid);
+  border:1px solid var(--border);
+  padding:3px 8px;white-space:nowrap;
+  transition:all .2s;flex-shrink:0;
+}
+.repo:hover{color:var(--silver);border-color:var(--mid);background:var(--border)}
+.ctx{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.56rem;color:var(--muted);
+  letter-spacing:.3em;text-transform:uppercase;
+  padding-left:8px;border-left:2px solid var(--mid);
+  margin-top:-4px;
+}
+.wip{
+  display:inline-block;
+  font-family:'Share Tech Mono',monospace;font-size:.52rem;
+  color:var(--muted);border:1px solid var(--mid);
+  padding:1px 6px;letter-spacing:.15em;
+  vertical-align:middle;margin-left:8px;
+  animation:blink 2.5s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.dsm{font-family:'Share Tech Mono',monospace;font-size:.57rem;color:var(--mid);flex-shrink:0}
+
+.card ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.card li{font-size:.72rem;color:var(--chrome);padding-left:16px;position:relative;line-height:1.55}
+.card li::before{content:'—';position:absolute;left:0;color:var(--mid)}
+
+.tags{
+  display:flex;flex-wrap:wrap;gap:5px;
+  margin-top:auto;padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.t{
+  font-family:'Share Tech Mono',monospace;font-size:.58rem;
+  color:var(--mid);border:1px solid var(--border);
+  padding:2px 8px;background:var(--deep);
+  transition:all .2s;
+}
+.t:hover{color:var(--silver);border-color:var(--mid)}
+
+/* ─────────────────────────────────────────
+   FUTURE SCOPE
+───────────────────────────────────────── */
+.grid-fut{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:2px;background:var(--border);
+}
+.fut{
+  background:var(--deep);
+  padding:26px;position:relative;overflow:hidden;
+  transition:background .3s;
+}
+/* top shimmer line */
+.fut::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--muted) 50%,transparent);
+}
+/* inner glow */
+.fut::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.018) 0%,transparent 55%);
+  pointer-events:none;
+}
+.fut:hover{background:#0a0a0a}
+.eng{
+  display:block;
+  font-family:'Share Tech Mono',monospace;font-size:.54rem;
+  color:var(--mid);letter-spacing:.3em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.fut h3{font-family:'Cinzel',serif;font-size:.76rem;font-weight:700;color:var(--silver);margin-bottom:9px;letter-spacing:.07em}
+.fut p{font-size:.71rem;color:var(--muted);line-height:1.6}
+
+/* ─────────────────────────────────────────
+   SKILLS
+───────────────────────────────────────── */
+.grid-sk{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:28px 32px;
+}
+.sk-g{display:flex;flex-direction:column;gap:10px}
+.sk-l{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.72rem;letter-spacing:.4em;
+  color:var(--muted);text-transform:uppercase;
+  padding-bottom:7px;position:relative;
+}
+.sk-l::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,var(--border),transparent);
+}
+.sk-tags{display:flex;flex-wrap:wrap;gap:5px}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer{
+  position:relative;z-index:2;
+  background:var(--deep);
+  border-top:1px solid var(--border);
+  text-align:center;
+  overflow:hidden;
+}
+footer::before{
+  content:'';display:block;height:3px;
+  background:linear-gradient(90deg,
+    var(--black) 0%,var(--mid) 20%,var(--chrome) 50%,var(--mid) 80%,var(--black) 100%
+  );
+  margin-bottom:50px;
+}
+footer::after{
+  content:'';display:block;height:3px;
+  background:linear-gradient(90deg,
+    var(--black) 0%,var(--mid) 20%,var(--chrome) 50%,var(--mid) 80%,var(--black) 100%
+  );
+  margin-top:50px;
+}
+.ft-mark{display:block;margin:0 auto 16px;width:36px;height:44px;opacity:.1;color:var(--chrome)}
+.ft-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:.55em;
+  color:var(--mid);text-transform:uppercase;margin-bottom:6px;
+}
+.ft-tag{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.55rem;letter-spacing:.28em;color:var(--border);text-transform:uppercase;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width:640px){
+  h1.name{letter-spacing:.08em}
+  main{padding:50px 16px 70px;gap:56px}
+  .panel{padding:20px 16px}
+  .grid-proj,.grid-fut{grid-template-columns:1fr}
+  .grid-sk{grid-template-columns:1fr 1fr}
+  nav a{padding:12px 12px;font-size:.62rem;letter-spacing:.18em}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════ -->
+<header>
+  <div class="wm">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,6 194,100 100,194 6,100"/>
+      <polygon points="100,24 176,100 100,176 24,100" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="26" fill="none" stroke-width="2"/>
+      <circle cx="100" cy="100" r="8"/>
+      <line x1="100" y1="6"   x2="100" y2="194" stroke-width=".6"/>
+      <line x1="6"   y1="100" x2="194" y2="100" stroke-width=".6"/>
+      <line x1="28"  y1="28"  x2="172" y2="172" stroke-width=".4"/>
+      <line x1="172" y1="28"  x2="28"  y2="172" stroke-width=".4"/>
+      <polygon points="100,10 104,18 100,26 96,18"/>
+      <polygon points="174,96 182,100 174,104 166,100"/>
+      <polygon points="100,174 104,182 100,190 96,182"/>
+      <polygon points="26,96 34,100 26,104 18,100"/>
+      <rect x="35" y="35" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 40 40)"/>
+      <rect x="155" y="35" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 160 40)"/>
+      <rect x="35" y="155" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 40 160)"/>
+      <rect x="155" y="155" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 160 160)"/>
+    </svg>
+  </div>
+
+  <div class="header-inner">
+    <div class="h-rule"></div>
+    <h1 class="name">Elijah Cortez</h1>
+    <p class="subtitle">Software Engineer &nbsp;·&nbsp; Designer &nbsp;·&nbsp; Builder</p>
+    <div class="contacts">
+      <span><span class="pip"></span>West Hills, CA 91304</span>
+      <span><span class="pip"></span>+1 (818) 836-7300</span>
+      <span><span class="pip"></span><a href="mailto:elijahcortez2002@gmail.com">elijahcortez2002@gmail.com</a></span>
+      <span><span class="pip"></span><a href="https://github.com/Gloom-Eiji" target="_blank">github.com/Gloom-Eiji</a></span>
+    </div>
+    <div class="h-rule bot"></div>
+  </div>
+</header>
+
+<!-- ══ NAV ══════════════════════════════════════ -->
+<nav>
+  <a href="#education">Education</a>
+  <a href="#projects">Projects</a>
+  <a href="#future">Future Scope</a>
+  <a href="#skills">Skills</a>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════ -->
+<main>
+
+  <!-- EDUCATION -->
+  <section class="sec" id="education">
+    <h2 class="sec-title">Education</h2>
+    <div class="panel">
+      <span class="panel-br"></span>
+      <div class="edu">
+        <div>
+          <h3>California State University Northridge</h3>
+          <p class="edu-deg">Bachelor of Science — Computer Science</p>
+        </div>
+        <div class="date">2022 — Present</div>
+      </div>
+      <div class="edu">
+        <div>
+          <h3>Los Angeles Pierce College</h3>
+          <p class="edu-deg">Associate's Degree</p>
+        </div>
+        <div class="date">2020 — 2021</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="sec" id="projects">
+    <h2 class="sec-title">Projects</h2>
+    <div class="grid-proj">
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">Hotel Booking Web App</h3>
+          <a href="https://github.com/AvniIsrani1/flask-hotel" target="_blank" class="repo">↗ repo</a>
+        </div>
+        <ul>
+          <li>Full-stack booking platform built with Flask</li>
+          <li>Interactive hotel room 3D design elements</li>
+          <li>AI-powered LLM chatbot for website integration</li>
+          <li>Backend routing, database logic, and UI design</li>
+        </ul>
+        <div class="tags">
+          <span class="t">Flask</span><span class="t">Python</span>
+          <span class="t">LLM / AI</span><span class="t">UI/UX</span><span class="t">Full-Stack</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">Campus Connect <span class="wip">WIP</span></h3>
+          <a href="https://github.com/ivanenriquejuarez/campus-connect" target="_blank" class="repo">↗ repo</a>
+        </div>
+        <p class="ctx">Student Community Hub</p>
+        <ul>
+          <li>Collaborative techstack; React + Supabase + Vercel + Node.js</li>
+          <li>Containerization with Docker</li>
+          <li>User testing with real CSUN student groups</li>
+          <li>Data-driven UX, community interaction design</li>
+        </ul>
+        <div class="tags">
+          <span class="t">React</span><span class="t">Flask</span>
+          <span class="t">Docker</span><span class="t">UX Research</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">Indie Platformer Game</h3>
+        </div>
+        <ul>
+          <li>Unity-based 2D platformer built with a small team</li>
+          <li>Art director and 3D asset / texture designer</li>
+          <li>Gameplay systems, level design, asset integration</li>
+        </ul>
+        <div class="tags">
+          <span class="t">Unity</span><span class="t">Blender</span>
+          <span class="t">C#</span><span class="t">Art Direction</span><span class="t">Level Design</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">VFX Tools Script</h3>
+          <span class="dsm">Aug–Dec 2025</span>
+        </div>
+        <p class="ctx">Multimedia System Design</p>
+        <ul>
+          <li>Automated metadata handling and proxy/thumbnail generation via Python + argparse</li>
+          <li>CLI parsing, batch FFmpeg media processing</li>
+          <li>Accelerated editorial requests with custom watermarking</li>
+        </ul>
+        <div class="tags">
+          <span class="t">Python</span><span class="t">FFmpeg</span>
+          <span class="t">CLI</span><span class="t">argparse</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">QA Automation Script</h3>
+          <span class="dsm">Aug–Dec 2025</span>
+        </div>
+        <p class="ctx">Multimedia System Design</p>
+        <ul>
+          <li>Python automation populating a DB with global QA reports</li>
+          <li>Mirrors enterprise QA workflows end-to-end</li>
+          <li>Generates blockers, repeat issues, and user-specific reports</li>
+        </ul>
+        <div class="tags">
+          <span class="t">Python</span><span class="t">Database</span><span class="t">QA Automation</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="card-title">Marks Automation Script</h3>
+          <span class="dsm">Aug–Dec 2025</span>
+        </div>
+        <p class="ctx">Multimedia System Design</p>
+        <ul>
+          <li>Frame-position and filesystem path resolution in seconds</li>
+          <li>Parsed proprietary Baselight machine data for frame-level paths</li>
+          <li>Exported CSV / XLS with timecode and Vimeo thumbnail previews</li>
+        </ul>
+        <div class="tags">
+          <span class="t">Python</span><span class="t">Baselight</span>
+          <span class="t">Vimeo API</span><span class="t">XLS</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FUTURE SCOPE -->
+  <section class="sec" id="future">
+    <h2 class="sec-title">Future Scope</h2>
+    <div class="grid-fut">
+      <div class="fut">
+        <span class="eng">Unity</span>
+        <h3>CO-OP Physics Fighting Game</h3>
+        <p>Physics-driven combat systems for cooperative multiplayer. Dynamic force and collision-based fighting mechanics.</p>
+      </div>
+      <div class="fut">
+        <span class="eng">Unreal Engine</span>
+        <h3>Co-op Horror Game</h3>
+        <p>Objective-based cooperative progression with tension-focused level design and adaptive enemy AI that counters each player's playstyle.</p>
+      </div>
+      <div class="fut">
+        <span class="eng">Business Venture · 1 Yr Roadmap</span>
+        <h3>Martial Arts Athletic Wear</h3>
+        <p>AI image-to-product pipeline for design generation. International supply chain, business regulation, and brand development.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="sec" id="skills">
+    <h2 class="sec-title">Technical Skills</h2>
+    <div class="panel">
+      <span class="panel-br"></span>
+      <div class="grid-sk">
+        <div class="sk-g">
+          <h4 class="sk-l">Languages</h4>
+          <div class="sk-tags">
+            <span class="t">Python</span><span class="t">JavaScript</span>
+            <span class="t">C</span><span class="t">C++</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">Frameworks</h4>
+          <div class="sk-tags">
+            <span class="t">Flask</span><span class="t">React</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">Cloud & DevOps</h4>
+          <div class="sk-tags">
+            <span class="t">AWS</span><span class="t">Docker</span><span class="t">Vercel</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">Game & Graphics</h4>
+          <div class="sk-tags">
+            <span class="t">Unity</span><span class="t">Blender</span><span class="t">C#</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">Design Tools</h4>
+          <div class="sk-tags">
+            <span class="t">Photoshop</span><span class="t">GIMP</span>
+            <span class="t">10+ yrs Digital Art</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">AI / LLM</h4>
+          <div class="sk-tags">
+            <span class="t">LLM Integration</span><span class="t">AI Deployment</span>
+          </div>
+        </div>
+        <div class="sk-g">
+          <h4 class="sk-l">UI / UX</h4>
+          <div class="sk-tags">
+            <span class="t">Prototyping</span><span class="t">Usability Testing</span>
+            <span class="t">Data-Driven UX</span><span class="t">Unit Testing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ FOOTER ═══════════════════════════════════ -->
+<footer>
+  <svg class="ft-mark" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <path d="M18 1C18 1 4 10 4 20c0 6 4 9 9 10-3 5-6 10-6 10h22s-3-5-6-10c5-1 9-4 9-10C32 10 18 1 18 1Z"/>
+    <rect x="15" y="38" width="6" height="5" rx="1"/>
+  </svg>
+  <p class="ft-name">Elijah Cortez</p>
+  <p class="ft-tag">West Hills, CA &nbsp;·&nbsp; Built with iron and code</p>
+</footer>
+
+</body>
+</html>

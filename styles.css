@@ -1,0 +1,425 @@
+/* ============================================================
+   IRON FOLIO — styles.css
+   Color Palette:
+   --iron-black:    #0a0a0a   (deep background)
+   --forge-dark:    #111111   (section bg)
+   --ash-gray:      #1c1c1c   (card bg)
+   --chrome-mid:    #2e2e2e   (borders, dividers)
+   --chrome-light:  #c0c0c0   (chrome text)
+   --silver-bright: #e8e8e8   (headings)
+   --cross-gold:    #8a7040   (accent — gothic gilt)
+   --blood-dim:     #3d1515   (subtle danger accent)
+   Font 1: Cinzel / Cinzel Decorative — medieval display
+   Font 2: Share Tech Mono — chrome/code edge
+   ============================================================ */
+
+/* ─── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ─── ROOT VARS ─────────────────────────────────────────── */
+:root {
+  --iron-black:   #0a0a0a;
+  --forge-dark:   #111111;
+  --ash-gray:     #191919;
+  --chrome-mid:   #2e2e2e;
+  --chrome-light: #b8b8b8;
+  --silver-bright:#e8e8e8;
+  --cross-gold:   #9a8050;
+  --cross-dim:    #5c4c2a;
+  --muted:        #666666;
+  --tag-bg:       #1f1f1f;
+  --tag-border:   #3a3a3a;
+}
+
+/* ─── BASE ──────────────────────────────────────────────── */
+body {
+  background-color: var(--iron-black);
+  color: var(--chrome-light);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+  /* Subtle noise texture via SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+  color: var(--silver-bright);
+  letter-spacing: 0.08em;
+}
+
+a {
+  color: var(--cross-gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover { color: var(--silver-bright); }
+
+/* ─── HEADER ────────────────────────────────────────────── */
+header {
+  background-color: var(--forge-dark);
+  border-bottom: 1px solid var(--chrome-mid);
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gothic cross watermark */
+header::before {
+  content: '✝';
+  font-size: 600px;
+  color: rgba(255,255,255,0.015);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-family: 'Cinzel', serif;
+  line-height: 1;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.crest-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cross-gold), transparent);
+  margin: 20px 0;
+}
+
+h1.name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 700;
+  color: var(--silver-bright);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 30px rgba(200,200,200,0.08),
+    0 2px 0 rgba(0,0,0,0.8);
+  margin-bottom: 8px;
+  animation: fadeDown 0.8s ease both;
+}
+
+.title-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--cross-gold);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeDown 0.9s ease both;
+}
+
+.contact-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 32px;
+  font-size: 0.78rem;
+  color: var(--chrome-light);
+  animation: fadeDown 1s ease both;
+}
+.contact-bar span { white-space: nowrap; }
+
+/* ─── MAIN ──────────────────────────────────────────────── */
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* ─── SECTIONS ──────────────────────────────────────────── */
+.section {
+  animation: fadeUp 0.7s ease both;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cross-gold);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--cross-dim), transparent);
+}
+
+.rune {
+  color: var(--cross-gold);
+  font-size: 0.7em;
+}
+
+.section-body {
+  background: var(--ash-gray);
+  border: 1px solid var(--chrome-mid);
+  border-top: 2px solid var(--cross-dim);
+  padding: 28px 32px;
+  position: relative;
+}
+
+/* corner ornaments */
+.section-body::before,
+.section-body::after {
+  content: '◆';
+  position: absolute;
+  color: var(--cross-dim);
+  font-size: 0.6rem;
+  line-height: 1;
+}
+.section-body::before { top: -5px; left: 12px; }
+.section-body::after  { top: -5px; right: 12px; }
+
+/* ─── EDUCATION ─────────────────────────────────────────── */
+.edu-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 12px 0;
+  flex-wrap: wrap;
+}
+
+.edu-entry h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--silver-bright);
+  margin-bottom: 3px;
+}
+
+.entry-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.date-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--cross-gold);
+  border: 1px solid var(--cross-dim);
+  padding: 3px 10px;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+}
+
+.divider-thin {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--chrome-mid), transparent);
+  margin: 8px 0;
+}
+
+/* ─── PROJECTS GRID ─────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--chrome-mid);
+  padding: 0;
+  border: 1px solid var(--chrome-mid);
+}
+
+.project-card {
+  background: var(--ash-gray);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.25s;
+}
+.project-card:hover {
+  background: #202020;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.project-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--silver-bright);
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+
+.wip {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--cross-gold);
+  border: 1px solid var(--cross-dim);
+  padding: 2px 6px;
+  vertical-align: middle;
+  margin-left: 6px;
+  letter-spacing: 0.1em;
+}
+
+.repo-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.repo-link:hover { color: var(--cross-gold); }
+
+.card-context {
+  font-size: 0.68rem;
+  color: var(--cross-gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: -6px;
+}
+
+.date-sm {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.project-card ul {
+  padding-left: 16px;
+  color: var(--chrome-light);
+  font-size: 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.project-card li { list-style: none; padding-left: 0; }
+.project-card li::before {
+  content: '— ';
+  color: var(--cross-dim);
+}
+
+/* ─── FUTURE SCOPE ──────────────────────────────────────── */
+.future-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--chrome-mid);
+  padding: 0;
+}
+
+.future-card {
+  background: var(--ash-gray);
+  padding: 22px 24px;
+  border-top: 2px solid var(--blood-dim, #2a1010);
+  transition: background 0.25s;
+}
+.future-card:hover { background: #1e1e1e; }
+.future-card h3 {
+  font-size: 0.82rem;
+  color: var(--silver-bright);
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+}
+.future-card p {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── SKILLS ────────────────────────────────────────────── */
+.skills-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.skill-group { display: flex; flex-direction: column; gap: 10px; }
+
+.skill-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cross-gold);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--cross-dim);
+}
+
+.skill-tags, .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: var(--chrome-light);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  letter-spacing: 0.05em;
+  transition: border-color 0.2s, color 0.2s;
+}
+.tag:hover {
+  border-color: var(--cross-gold);
+  color: var(--cross-gold);
+}
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer {
+  background: var(--forge-dark);
+  border-top: 1px solid var(--chrome-mid);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.footer-text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin: 12px 0;
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .edu-entry { flex-direction: column; }
+  main { padding: 40px 16px; gap: 44px; }
+  .section-body { padding: 20px 18px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .skills-body { grid-template-columns: 1fr 1fr; }
+}
