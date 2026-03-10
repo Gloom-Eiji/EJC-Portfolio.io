@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Elijah Cortez</title>
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 @font-face {
@@ -18,13 +19,13 @@
   --black:#060606;
   --deep:#0d0d0d;
   --card:#131313;
-  --border:#222222;
-  --mid:#333333;
-  --muted:#666666;
-  --chrome:#aaaaaa;
-  --silver:#cccccc;
-  --bright:#e8e8e8;
-  --white:#f5f5f5;
+  --border:#252525;
+  --mid:#555555;
+  --muted:#999999;
+  --chrome:#c8c8c8;
+  --silver:#e0e0e0;
+  --bright:#eeeeee;
+  --white:#f8f8f8;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -88,19 +89,8 @@ header::after{
   );
 }
 
-/* watermark */
-.wm{
-  position:absolute;
-  inset:0;
-  display:flex;align-items:center;justify-content:center;
-  pointer-events:none;
-  overflow:hidden;
-}
-.wm svg{
-  width:560px;height:560px;
-  opacity:.03;
-  fill:var(--white);
-}
+
+
 
 .header-inner{
   position:relative;
@@ -237,6 +227,9 @@ main{
 /* panel */
 .panel{
   background:var(--card);
+  background-image:linear-gradient(rgba(13,13,13,0.82),rgba(13,13,13,0.82)),url('./images/CHtexture.png');
+  background-repeat:repeat;
+  background-size:320px 320px;
   border:1px solid var(--border);
   padding:36px 40px;
   position:relative;
@@ -300,6 +293,9 @@ main{
 
 .card{
   background:var(--card);
+  background-image:linear-gradient(rgba(13,13,13,0.82),rgba(13,13,13,0.82)),url('./images/CHtexture.png');
+  background-repeat:repeat;
+  background-size:320px 320px;
   padding:26px 24px;
   display:flex;flex-direction:column;gap:14px;
   position:relative;overflow:hidden;
@@ -382,6 +378,9 @@ main{
 }
 .fut{
   background:var(--deep);
+  background-image:linear-gradient(rgba(10,10,10,0.85),rgba(10,10,10,0.85)),url('./images/CHtexture.png');
+  background-repeat:repeat;
+  background-size:320px 320px;
   padding:26px;position:relative;overflow:hidden;
   transition:background .3s;
 }
@@ -433,6 +432,7 @@ footer{
   border-top:1px solid var(--border);
   text-align:center;
   overflow:hidden;
+  padding:48px 24px 56px;
 }
 footer::before{
   content:'';display:block;height:3px;
@@ -467,41 +467,71 @@ footer::after{
   .grid-sk{grid-template-columns:1fr 1fr}
   nav a{padding:12px 12px;font-size:.62rem;letter-spacing:.18em}
 }
+
+/* ─ HERO BANNER ─ */
+.header-bg{
+  position:absolute;inset:0;
+  background-image:url('./images/KnightDuel.png');
+  background-size:cover;
+  background-position:center 25%;
+  filter:brightness(.45) contrast(1.05) grayscale(.15);
+  z-index:0;
+}
+.header-bg-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to bottom,
+      rgba(6,6,6,.45) 0%,
+      rgba(6,6,6,.10) 35%,
+      rgba(6,6,6,.25) 70%,
+      rgba(6,6,6,.70) 100%
+    ),
+    linear-gradient(to right,
+      rgba(6,6,6,.35) 0%,
+      rgba(6,6,6,.05) 25%,
+      rgba(6,6,6,.05) 75%,
+      rgba(6,6,6,.35) 100%
+    );
+}
+
+/* ─ PROFILE PHOTO ── */
+.profile-photo{
+  width:140px;height:140px;
+  border-radius:50%;
+  object-fit:cover;object-position:center top;
+  border:2px solid var(--mid);
+  box-shadow:0 0 0 4px rgba(255,255,255,.04),
+             0 4px 24px rgba(0,0,0,.6);
+  margin-bottom:18px;
+  filter:grayscale(.25) brightness(.95);
+  display:block;margin-left:auto;margin-right:auto;
+}
+
+/* ─ NAV: resume download link ── */
+nav a.resume-dl{
+  color:var(--muted);
+  border-left:1px solid var(--border);
+}
+nav a.resume-dl:hover{color:var(--silver)}
+
 </style>
 </head>
 <body>
 
 <!-- header -->
 <header>
-  <div class="wm">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="100,6 194,100 100,194 6,100"/>
-      <polygon points="100,24 176,100 100,176 24,100" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="100" cy="100" r="26" fill="none" stroke-width="2"/>
-      <circle cx="100" cy="100" r="8"/>
-      <line x1="100" y1="6"   x2="100" y2="194" stroke-width=".6"/>
-      <line x1="6"   y1="100" x2="194" y2="100" stroke-width=".6"/>
-      <line x1="28"  y1="28"  x2="172" y2="172" stroke-width=".4"/>
-      <line x1="172" y1="28"  x2="28"  y2="172" stroke-width=".4"/>
-      <polygon points="100,10 104,18 100,26 96,18"/>
-      <polygon points="174,96 182,100 174,104 166,100"/>
-      <polygon points="100,174 104,182 100,190 96,182"/>
-      <polygon points="26,96 34,100 26,104 18,100"/>
-      <rect x="35" y="35" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 40 40)"/>
-      <rect x="155" y="35" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 160 40)"/>
-      <rect x="35" y="155" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 40 160)"/>
-      <rect x="155" y="155" width="10" height="10" fill="none" stroke-width="1" transform="rotate(45 160 160)"/>
-    </svg>
-  </div>
+  <div class="header-bg"></div>
+  <div class="header-bg-overlay"></div>
 
   <div class="header-inner">
+    <img src="./images/ME.jpg" class="profile-photo" alt="Elijah Cortez">
     <div class="h-rule"></div>
     <h1 class="name">Elijah Cortez</h1>
     <p class="subtitle">Software Engineer &nbsp;·&nbsp; Designer &nbsp;·&nbsp; Builder</p>
     <div class="contacts">
       <span><span class="pip"></span>West Hills, CA 91304</span>
       <span><span class="pip"></span>+1 (818) 836-7300</span>
-      <span><span class="pip"></span><a><span>elijahcortez2002@gmail.com</span></a></span>
+      <span><span class="pip"></span><a href="mailto:elijahcortez2002@gmail.com">elijahcortez2002@gmail.com</a></span>
       <span><span class="pip"></span><a href="https://github.com/Gloom-Eiji" target="_blank">github.com/Gloom-Eiji</a></span>
     </div>
     <div class="h-rule bot"></div>
@@ -514,6 +544,7 @@ footer::after{
   <a href="#projects">Projects</a>
   <a href="#future">Future Scope</a>
   <a href="#skills">Skills</a>
+  <a href="./resume.pdf" download class="resume-dl"><i class="fa-solid fa-file-arrow-down"></i> Résumé</a>
 </nav>
 
 <!-- main -->
@@ -730,7 +761,9 @@ footer::after{
 
 <!-- footer -->
 <footer>
-  <svg class="ft-mark" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-    <path d="M18 1C18 1 4 10 4 20c0 6 4 9 9 10-3 5-6 10-6 10h22s-3-5-6-10c5-1 9-4 9-10C32 10 18 1 18 1Z"/>
-    <rect x="15" y="38" width="6" height="5" rx="1"/>
-  </s
+  <p class="ft-name">Elijah Cortez</p>
+  <p class="ft-tag">Software Engineer &nbsp;·&nbsp; Designer &nbsp;·&nbsp; Builder</p>
+  <div class="contacts" style="margin-top:18px;padding-bottom:0;">
+    <span><i class="fa-solid fa-location-dot" style="color:var(--muted);margin-right:6px;"></i>West Hills, CA 91304</span>
+    <span><i class="fa-solid fa-phone" style="color:var(--muted);margin-right:6px;"></i>+1 (818) 836-7300</span>
+    <span><i class="fa-solid fa-envelope" style="color:var(--muted);margin-right:6px;"></i><a href="mailto:elijahcortez2002@gmail.com">elijahcortez2002@gmail.com</a></span>
