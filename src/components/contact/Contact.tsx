@@ -3,6 +3,7 @@ import { profile } from "@/data/profile";
 import MarchingKnight from "@/components/hero/MarchingKnight";
 import Scramble from "@/components/effects/Scramble";
 import CopyEmail from "./CopyEmail";
+import LetterComposer from "./LetterComposer";
 import DitherReveal from "./DitherReveal";
 
 export default function Contact() {
@@ -41,12 +42,7 @@ export default function Contact() {
             </p>
             {profile.availability && <p className="label mt-6 text-gilt">✦ {profile.availability}</p>}
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href={`mailto:${profile.email}`}
-                className="border border-bone bg-bone px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-void transition-colors hover:bg-transparent hover:text-bone"
-              >
-                Send a letter
-              </a>
+              <LetterComposer email={profile.email} />
               <CopyEmail email={profile.email} />
             </div>
           </div>

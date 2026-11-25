@@ -78,7 +78,7 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-[min(520px,82vw)] lg:max-w-[600px]">
           <AsciiKnight />
           <p className="label mt-2 text-center text-ash-dim" aria-hidden>
-            Fig. I — The Sentinel <span className="hidden md:inline">· move your lantern across him</span>
+            Fig. I — The Sentinel · <span className="text-bone">click him to duel</span>
           </p>
         </div>
       </div>

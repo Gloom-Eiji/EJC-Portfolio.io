@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ARMET_SRC, ART_H, ART_W, drawArmet } from "./armet-art";
+import Modal from "@/components/ui/Modal";
+
+// The battle only downloads when someone actually challenges the knight.
+const KnightBattle = dynamic(() => import("@/components/games/KnightBattle"), { ssr: false });
 
 // Dark → bright. Few, clearly distinct densities keep the shapes legible.
 const RAMP = " .,:;-=+*#%@";
@@ -21,6 +26,7 @@ type State = {
 
 export default function AsciiKnight({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [dueling, setDueling] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -320,11 +326,21 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
   }, []);
 
   return (
-    <div className={className}>
-      <canvas ref={canvasRef} className="mx-auto block max-w-full" aria-hidden />
-      <span className="sr-only">
-        An animated ASCII-art rendering of a knight&apos;s armet helmet in profile, its beaked visor engraved with scrollwork.
-      </span>
-    </div>
+    <>
+      <button
+        type="button"
+        onClick={() => setDueling(true)}
+        className={`group block w-full cursor-pointer focus-visible:outline-offset-8 ${className}`}
+        aria-label="Challenge the knight: opens a turn-based ASCII battle"
+      >
+        <canvas ref={canvasRef} className="mx-auto block max-w-full" aria-hidden />
+        <span className="sr-only">
+          An animated ASCII-art rendering of a knight&apos;s armet helmet in profile, its beaked visor engraved with scrollwork.
+        </span>
+      </button>
+      <Modal open={dueling} onClose={() => setDueling(false)} title="The Gauntlet" label="Three foes, then the wyrm" wide>
+        <KnightBattle />
+      </Modal>
+    </>
   );
 }

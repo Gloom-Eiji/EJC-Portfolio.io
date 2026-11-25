@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { getContributions, type ContributionDay } from "@/lib/github";
+import { getContributions, getRecentPushes, type ContributionDay } from "@/lib/github";
 import { profile } from "@/data/profile";
 
 const USER = "Gloom-Eiji";
@@ -33,7 +33,7 @@ function label(d: ContributionDay) {
 }
 
 export default async function GithubLedger() {
-  const data = await getContributions(USER);
+  const [data, pushes] = await Promise.all([getContributions(USER), getRecentPushes(USER)]);
 
   return (
     <div className="engraved bg-crypt/60 p-5 md:p-7">
@@ -77,6 +77,35 @@ export default async function GithubLedger() {
         </>
       ) : (
         <p className="text-lg text-ash">The ledger could not be read just now. See the full history on GitHub.</p>
+      )}
+
+      {pushes.length > 0 && (
+        <div className="mt-8 border-t border-[var(--rule)] pt-6">
+          <p className="label mb-3 text-bone">Recent pushes</p>
+          <ol className="divide-y divide-[var(--rule)]">
+            {pushes.map((p) => (
+              <li key={p.repo}>
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group grid gap-1 py-3 sm:grid-cols-[9rem_minmax(0,14rem)_minmax(0,1fr)_auto] sm:items-baseline sm:gap-6"
+                >
+                  <time dateTime={p.pushedAt} className="font-mono text-[0.7rem] uppercase tracking-wider text-ash-dim">
+                    {new Date(p.pushedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}
+                  </time>
+                  <span className="truncate font-mono text-sm text-parchment group-hover:underline">{p.repo}</span>
+                  <span className="truncate font-serif text-lg text-ash">{p.message ?? "—"}</span>
+                  <span className="hidden items-center gap-2 font-mono text-[0.65rem] text-ash-dim sm:flex">
+                    {p.language}
+                    <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <span className="sr-only">(opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
       )}
     </div>
   );

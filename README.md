@@ -6,11 +6,11 @@ A dark medieval / ASCII-gothic portfolio built with Next.js (App Router), TypeSc
 
 | § | Section | What's interactive |
 |---|---------|--------------------|
-| — | **Hero** | Real-time ASCII rendering of an armet painting (histogram-equalized, local-contrast tone mapping + Sobel-edge glyphs) with a sweeping steel sheen. The cursor acts as a lantern, the knight scans in on load and dissolves on scroll, and a marching sentry patrols the bottom edge. |
+| — | **Hero** | Real-time ASCII rendering of an armet painting (histogram-equalized, local-contrast tone mapping + Sobel-edge glyphs) with a sweeping steel sheen. The cursor acts as a lantern, the knight scans in on load and dissolves on scroll. **Click the knight** for *The Gauntlet*, a turn-based battle (attack / defend / heal vs. goblin, kobold or mage, then the Ashen Wyrm boss). **Click the marching sentry** for *The Ride*, a horseback endless runner. |
 | I | **The Codex** | Bio, life outside code (art, cars, games, training), chronicle, and a *campaign map* of CSUN coursework filterable by "school". |
 | II | **The Armory** | RPG-style skill inventory. Inspect items to see where they were used, or equip a loadout of up to 3 to find the projects that used all of them. |
 | III | **The Archives** | Four featured projects in a scroll-driven horizontal gallery (vertical on mobile / reduced motion) with slide-out dossiers, a ledger of smaller works, and a live GitHub contribution heat map. |
-| IV | **Correspondence** | Contact links, copy-email, résumé, and a scroll-revealed dithered duel. |
+| IV | **Correspondence** | "Send a letter" composer (opens the visitor's mail app or Gmail, pre-filled), contact links, copy-email, résumé, and a scroll-revealed dithered duel. |
 
 ## Editing content
 
@@ -25,7 +25,7 @@ Screenshots: put files in `public/images/projects/` and list them in a project's
 
 The hero's source art is built from `assets/armet-reference.png` with `node scripts/make-armet.mjs`, which cuts out the background, crops the signature and writes `public/images/armet.png`. Swap in another image and rerun it to change the knight.
 
-The GitHub heat map is read from the public contribution calendar for `Gloom-Eiji` at build time and revalidated about once a day (`src/lib/github.ts`). If GitHub is unreachable, the section falls back to a profile link.
+The GitHub heat map is read from the public contribution calendar for `Gloom-Eiji` (`src/lib/github.ts`). It refreshes about hourly and lists recent pushes (latest commit per recently pushed public repo). Set an optional `GITHUB_TOKEN` env var on Vercel (a token with no scopes) to avoid GitHub's unauthenticated rate limit. Private-repo activity only appears if "Private contributions" is enabled in your GitHub contribution settings. If GitHub is unreachable, the section falls back to a profile link.
 
 ## Develop
 

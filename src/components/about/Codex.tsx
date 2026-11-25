@@ -76,7 +76,7 @@ export default function Codex() {
           <span className="text-bone">✠</span> When the forge cools
         </h3>
         <p className="mb-10 max-w-3xl font-serif text-3xl leading-tight text-parchment md:text-4xl">
-          Away from the editor I draw, paint and tattoo, work on my car, and train.
+          Away from the Repo I draw, paint and tattoo, work on my car, and train at the gym.
         </p>
         <ul data-reveal-lines className="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 xl:grid-cols-4">
           {pursuits.map((p) => {
