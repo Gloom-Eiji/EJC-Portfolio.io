@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, FlaskConical, Gem, Hammer, Shield, Sword, X, type LucideIcon } from "lucide-react";
 import { categories, skills, type SkillCategory } from "@/data/skills";
-import { projects } from "@/data/projects";
-import { openDossier } from "@/lib/archive-events";
+import { lesserWorks, projects } from "@/data/projects";
+import { goToWork } from "@/lib/archive-events";
 
 const ICONS: Record<SkillCategory, LucideIcon> = {
   weapons: Sword,
@@ -29,7 +29,7 @@ export default function Armory() {
 
   const matches = useMemo(() => {
     if (!loadout.length) return [];
-    return projects.filter((p) =>
+    return [...projects, ...lesserWorks].filter((p) =>
       loadout.every((id) => skills.find((s) => s.id === id)?.projects?.includes(p.id)),
     );
   }, [loadout]);
@@ -163,7 +163,7 @@ export default function Armory() {
                   <button
                     key={p.id}
                     type="button"
-                    onClick={() => openDossier(p.id)}
+                    onClick={() => goToWork(p.id)}
                     className="inline-flex items-center gap-1.5 border border-[var(--rule-strong)] px-3 py-1.5 font-mono text-xs text-bone transition-colors hover:bg-bone hover:text-void"
                   >
                     {p.title} <ArrowUpRight size={13} strokeWidth={1.5} />
@@ -219,12 +219,12 @@ export default function Armory() {
                 <p className="label mb-2 text-ash-dim">Wielded in</p>
                 <ul className="space-y-1.5">
                   {item.projects.map((id) => {
-                    const p = projects.find((x) => x.id === id);
+                    const p = [...projects, ...lesserWorks].find((x) => x.id === id);
                     return p ? (
                       <li key={id}>
                         <button
                           type="button"
-                          onClick={() => openDossier(id)}
+                          onClick={() => goToWork(id)}
                           className="group flex w-full items-center justify-between border-b border-[var(--rule)] py-2 text-left font-serif text-lg text-bone hover:text-parchment"
                         >
                           {p.title}

@@ -67,8 +67,8 @@ export function drawKnight(g: CanvasRenderingContext2D, t: number) {
     const plumePt = (k: number) => {
       const wave = Math.sin(t * 1.5 - k * 4.2) * k * 6;
       return {
-        x: 100 + 60 * k + wave * 0.5,
-        y: 28 - 26 * Math.sin(k * Math.PI * 0.75) + 92 * k * k + wave * 0.6,
+        x: 112 + 50 * k + wave * 0.5,
+        y: 32 - 22 * Math.sin(k * Math.PI * 0.75) + 90 * k * k + wave * 0.6,
       };
     };
     for (let i = 0; i < 40; i++) {
@@ -76,7 +76,7 @@ export function drawKnight(g: CanvasRenderingContext2D, t: number) {
       const { x, y } = plumePt(k);
       g.fillStyle = grey(0.9 - k * 0.5);
       g.beginPath();
-      g.arc(x, y, 12.5 * (1 - k * 0.62), 0, Math.PI * 2);
+      g.arc(x, y, 7.5 * (1 - k * 0.5), 0, Math.PI * 2);
       g.fill();
     }
     g.strokeStyle = "rgba(0,0,0,0.55)";
@@ -86,7 +86,7 @@ export function drawKnight(g: CanvasRenderingContext2D, t: number) {
       for (let i = 0; i <= 30; i++) {
         const k = 0.08 + (i / 30) * 0.9;
         const { x, y } = plumePt(k);
-        const o = off * (1 - k * 0.6);
+        const o = off * 0.6 * (1 - k * 0.5);
         if (i === 0) g.moveTo(x - o * 0.5, y + o);
         else g.lineTo(x - o * 0.5, y + o);
       }
@@ -188,45 +188,128 @@ export function drawKnight(g: CanvasRenderingContext2D, t: number) {
   g.quadraticCurveTo(100, 130, 74, 124);
   g.closePath();
   g.fill();
+  g.strokeStyle = "rgba(0,0,0,0.8)";
+  g.lineWidth = 1.2;
+  for (const y of [113, 119]) {
+    g.beginPath();
+    g.moveTo(76, y);
+    g.quadraticCurveTo(100, y + 6, 124, y);
+    g.stroke();
+  }
 
   headScale(() => {
-    // ---- Great helm ----
-    g.fillStyle = metal(g, 69, 131);
+    // ---- Armet, in profile, facing left ----
+    const dot = (x: number, y: number, r: number) => {
+      g.beginPath();
+      g.arc(x, y, r, 0, Math.PI * 2);
+      g.fill();
+    };
+    const blink = Math.sin(t * 0.7) > 0.985 ? 0 : 1;
+
+    // rondel on its stem at the back of the neck, the armet's signature
+    g.strokeStyle = grey(0.55);
+    g.lineWidth = 2.4;
     g.beginPath();
-    g.moveTo(72, 112);
-    g.lineTo(69.5, 58);
-    g.quadraticCurveTo(70, 33, 100, 31);
-    g.quadraticCurveTo(130, 33, 130.5, 58);
-    g.lineTo(128, 112);
-    g.quadraticCurveTo(100, 121, 72, 112);
+    g.moveTo(128, 102);
+    g.lineTo(140, 99);
+    g.stroke();
+    g.fillStyle = grey(0.85);
+    dot(143, 98, 6.5);
+    g.fillStyle = grey(0.3);
+    dot(143, 98, 2.4);
+
+    // skull: a rounded bowl, lit from the upper left, with a rim light behind
+    const skull = g.createRadialGradient(94, 44, 3, 108, 64, 36);
+    skull.addColorStop(0, grey(1));
+    skull.addColorStop(0.35, grey(0.84));
+    skull.addColorStop(0.78, grey(0.42));
+    skull.addColorStop(1, grey(0.66));
+    g.fillStyle = skull;
+    g.beginPath();
+    g.ellipse(108, 64, 30, 33, 0, 0, Math.PI * 2);
+    g.fill();
+
+    // cheek-piece and bevor wrapping the jaw down into the gorget
+    g.fillStyle = metal(g, 80, 138, 0.1);
+    g.beginPath();
+    g.moveTo(86, 90);
+    g.quadraticCurveTo(96, 116, 118, 119);
+    g.lineTo(132, 113);
+    g.quadraticCurveTo(141, 93, 135, 74);
+    g.lineTo(112, 76);
     g.closePath();
     g.fill();
-    // crown band
-    g.strokeStyle = "rgba(0,0,0,0.7)";
-    g.lineWidth = 1.4;
+    g.strokeStyle = "rgba(0,0,0,0.8)";
+    g.lineWidth = 1.2;
     g.beginPath();
-    g.moveTo(70, 56);
-    g.quadraticCurveTo(100, 50, 130, 56);
+    g.moveTo(112, 77);
+    g.quadraticCurveTo(120, 96, 116, 118);
     g.stroke();
-    // eye slits
-    g.fillStyle = "#000";
-    g.fillRect(72, 68, 25, 8);
-    g.fillRect(103, 68, 25, 8);
-    // glint inside the visor — the knight is watching
-    const blink = Math.sin(t * 0.7) > 0.985 ? 0 : 1;
-    g.fillStyle = grey(0.55 * blink);
-    g.fillRect(84, 71, 3, 2.5);
-    g.fillRect(113, 71, 3, 2.5);
-    // central ridge
-    g.fillStyle = grey(1);
-    g.fillRect(98.6, 33, 2.8, 82);
-    // breaths (cross of holes)
-    g.fillStyle = "#000";
-    for (const [x, y] of [[116, 90], [121, 90], [111, 90], [116, 85], [116, 95], [116, 100], [84, 90], [79, 90], [89, 90], [84, 85], [84, 95], [84, 100]]) {
+
+    // raised comb along the crown
+    g.strokeStyle = grey(1);
+    g.lineWidth = 1.8;
+    g.beginPath();
+    g.arc(108, 64, 30, Math.PI * 1.1, Math.PI * 1.95);
+    g.stroke();
+
+    // visor: the projecting "sparrow's beak"
+    const visor = g.createLinearGradient(54, 48, 114, 104);
+    visor.addColorStop(0, grey(1));
+    visor.addColorStop(0.45, grey(0.74));
+    visor.addColorStop(1, grey(0.36));
+    g.fillStyle = visor;
+    g.beginPath();
+    g.moveTo(88, 43);
+    g.quadraticCurveTo(70, 49, 63, 60);
+    g.lineTo(52, 79);
+    g.lineTo(65, 97);
+    g.quadraticCurveTo(82, 107, 99, 102);
+    g.lineTo(117, 72);
+    g.quadraticCurveTo(105, 49, 88, 43);
+    g.closePath();
+    g.fill();
+    g.strokeStyle = "rgba(0,0,0,0.85)";
+    g.lineWidth = 1.4;
+    g.stroke();
+    // crease where the upper visor folds into the beak
+    g.strokeStyle = grey(1);
+    g.lineWidth = 1.1;
+    g.beginPath();
+    g.moveTo(53, 79);
+    g.lineTo(114, 73);
+    g.stroke();
+
+    // sight slit, with a glint of the eye behind it
+    g.strokeStyle = "#000";
+    g.lineWidth = 3.4;
+    g.beginPath();
+    g.moveTo(67, 61);
+    g.lineTo(105, 57.5);
+    g.stroke();
+    g.fillStyle = grey(0.6 * blink);
+    g.fillRect(79, 58, 4, 2);
+
+    // breaths: slanted slots, then two flat ones below
+    g.lineWidth = 2;
+    for (const x of [64, 70.5, 77, 83.5]) {
       g.beginPath();
-      g.arc(x, y, 1.5, 0, Math.PI * 2);
-      g.fill();
+      g.moveTo(x, 84);
+      g.lineTo(x + 3, 91);
+      g.stroke();
     }
+    for (const x of [70, 81]) {
+      g.beginPath();
+      g.moveTo(x, 96.5);
+      g.lineTo(x + 7, 96);
+      g.stroke();
+    }
+
+    // visor pivot rivet
+    g.fillStyle = grey(0.95);
+    dot(117, 72, 4.4);
+    g.fillStyle = grey(0.35);
+    dot(117, 72, 1.6);
   });
 
   g.restore();

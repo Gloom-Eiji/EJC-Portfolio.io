@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { courses, domains, terms, type Domain } from "@/data/courses";
-import { projects } from "@/data/projects";
-import { openDossier } from "@/lib/archive-events";
+import { findWork } from "@/data/projects";
+import { goToWork } from "@/lib/archive-events";
 
 const DOMAIN_GLYPH: Record<Domain, string> = {
   data: "≡",
@@ -128,12 +128,12 @@ export default function CourseMap() {
                 <div className="mt-5 flex flex-wrap items-center gap-3">
                   <span className="label">Applied in</span>
                   {course.projects.map((id) => {
-                    const p = projects.find((x) => x.id === id);
+                    const p = findWork(id);
                     return p ? (
                       <button
                         key={id}
                         type="button"
-                        onClick={() => openDossier(id)}
+                        onClick={() => goToWork(id)}
                         className="group inline-flex items-center gap-1.5 border border-[var(--rule-strong)] px-3 py-1.5 font-mono text-xs text-bone transition-colors hover:bg-bone hover:text-void"
                       >
                         {p.title}
@@ -143,14 +143,6 @@ export default function CourseMap() {
                   })}
                 </div>
               ) : null}
-              {(course.code === "COMP 440" || course.code === "COMP 324") && (
-                <a
-                  href={course.code === "COMP 440" ? "#trial-scriptorium" : "#trial-gate"}
-                  className="label link-underline mt-5 inline-block text-bone"
-                >
-                  → Play this course&apos;s trial
-                </a>
-              )}
             </div>
           </motion.article>
         </AnimatePresence>

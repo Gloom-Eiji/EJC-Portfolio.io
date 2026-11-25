@@ -46,8 +46,50 @@ export const timeline: TimelineEntry[] = [
   { when: "2020", what: "Begins computer science foundations", note: "Los Angeles Pierce College & LACCD transfer coursework" },
   { when: "Jun 2022", what: "Crew Lead, AMC Theatres", note: "Help desk, troubleshooting, onboarding & training" },
   { when: "Fall 2024", what: "Dean's List", note: "Operating Systems, Discrete Structures" },
-  { when: "Spring 2025", what: "Hotel Booking Web App", note: "Flask, AWS, 3D room viewer, LLM concierge" },
+  { when: "Spring 2025", what: "Hotel Ocean Vista", note: "Flask, AWS, 3D room viewer, LLM concierge" },
   { when: "Fall 2025", what: "Dean's List", note: "Networks & Security, Multimedia Systems, Senior Project I" },
   { when: "Spring 2026", what: "Senior Project Showcase — 1st Place", note: "Toro Campus Connect" },
   { when: "May 2026", what: "B.S. Computer Science conferred", note: "California State University, Northridge" },
+];
+
+// Life outside development, shown in the Codex under "When the forge cools".
+export type Pursuit = {
+  id: "studio" | "garage" | "arena" | "hall";
+  title: string;
+  label: string;
+  items: string[];
+  note: string;
+  link?: { label: string; href: string };
+};
+
+export const pursuits: Pursuit[] = [
+  {
+    id: "studio",
+    title: "The Studio",
+    label: "Art",
+    items: ["Digital art", "Pencil & paint", "Tattooing"],
+    note: "More than ten years of digital art, alongside traditional pencil and paint, and tattoo work.",
+  },
+  {
+    id: "garage",
+    title: "The Garage",
+    label: "Cars",
+    items: ["JDM culture", "2013 Scion FR-S", "Wrenching"],
+    note: "I own and work on a 2013 Scion FR-S. It's lightweight, manual and honest.",
+    link: { label: "Read the FR-S story", href: "https://gloom-eiji.github.io/484Project1/" },
+  },
+  {
+    id: "arena",
+    title: "The Arena",
+    label: "Games",
+    items: ["RPGs", "FPS", "Dark Souls", "Apex Legends"],
+    note: "Mostly RPGs and shooters. Dark Souls and Apex Legends are my favorites.",
+  },
+  {
+    id: "hall",
+    title: "The Training Hall",
+    label: "Training",
+    items: ["Muay Thai", "Brazilian jiu-jitsu", "Boxing", "Bodybuilding", "Hiking"],
+    note: "I train striking and grappling, including traditional American boxing, and I lift and hike.",
+  },
 ];

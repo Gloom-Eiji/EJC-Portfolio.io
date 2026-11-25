@@ -10,6 +10,17 @@ import AsciiEmblem from "./AsciiEmblem";
 export default function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const meta: [string, string][] = [];
+  if (project) {
+    for (const [k, v] of [
+      ["Timeframe", project.timeframe],
+      ["Role", project.role],
+      ["Team", project.team],
+      ["Course", project.course],
+    ] as const) {
+      if (v) meta.push([k, v]);
+    }
+  }
 
   useEffect(() => {
     if (!project) return;
@@ -95,23 +106,16 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
                 </p>
               )}
 
-              <dl className="mt-10 grid grid-cols-2 gap-px border border-[var(--rule)] bg-[var(--rule)] font-mono text-xs md:grid-cols-4">
-                {(
-                  [
-                    ["Timeframe", project.timeframe],
-                    ["Role", project.role],
-                    ["Team", project.team],
-                    ["Course", project.course],
-                  ] as const
-                )
-                  .filter(([, v]) => v)
-                  .map(([k, v]) => (
+              {meta.length > 0 && (
+                <dl className="mt-10 grid grid-cols-2 gap-px border border-[var(--rule)] bg-[var(--rule)] font-mono text-xs md:grid-cols-4">
+                  {meta.map(([k, v]) => (
                     <div key={k} className="bg-crypt p-4">
                       <dt className="label mb-1 text-ash-dim">{k}</dt>
                       <dd className="text-bone">{v}</dd>
                     </div>
                   ))}
-              </dl>
+                </dl>
+              )}
 
               {project.images?.length ? (
                 <div className="mt-10 grid gap-4">
@@ -138,6 +142,7 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
                 </div>
               </section>
 
+              {project.highlights.length > 0 && (
               <section className="mt-12" aria-labelledby="dossier-deeds">
                 <h3 id="dossier-deeds" className="label mb-4 text-bone">
                   ✠ Deeds
@@ -153,7 +158,9 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
                   ))}
                 </ul>
               </section>
+              )}
 
+              {project.stack.length > 0 && (
               <section className="mt-12" aria-labelledby="dossier-stack">
                 <h3 id="dossier-stack" className="label mb-4 text-bone">
                   ✠ Arms carried
@@ -166,6 +173,7 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
                   ))}
                 </ul>
               </section>
+              )}
 
               {project.links.length > 0 && (
                 <section className="mt-12" aria-labelledby="dossier-links">

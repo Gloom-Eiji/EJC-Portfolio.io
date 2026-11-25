@@ -265,6 +265,16 @@ body {
   }
 }
 
+/* ---------- Ledger highlight when jumped to from the Armory / Codex ---------- */
+
+.flash {
+  animation: flash 1.8s var(--ease-codex);
+}
+@keyframes flash {
+  0%, 30% { background-color: rgba(208, 204, 196, 0.1); }
+  100% { background-color: transparent; }
+}
+
 /* ---------- Utilities ---------- */
 
 .no-scrollbar {

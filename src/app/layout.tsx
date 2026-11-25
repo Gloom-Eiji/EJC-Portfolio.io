@@ -66,8 +66,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${unifraktur.variable} ${cormorant.variable} ${plexMono.variable} antialiased`}
     >
+      <head>
+        {/* The site is natively dark: tell the Dark Reader extension not to
+            restyle it (its injected attributes cause hydration mismatches). */}
+        <meta name="darkreader-lock" />
+      </head>
       <body className="min-h-dvh">
         <a
           href="#main"

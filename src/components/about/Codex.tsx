@@ -1,9 +1,15 @@
 import Image from "next/image";
-import { profile, timeline } from "@/data/profile";
+import { ArrowUpRight, CarFront, Dumbbell, Gamepad2, Palette, type LucideIcon } from "lucide-react";
+import { profile, pursuits, timeline, type Pursuit } from "@/data/profile";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CourseMap from "./CourseMap";
-import SqlConsole from "./SqlConsole";
-import SecurityTrial from "./SecurityTrial";
+
+const PURSUIT_ICONS: Record<Pursuit["id"], LucideIcon> = {
+  studio: Palette,
+  garage: CarFront,
+  arena: Gamepad2,
+  hall: Dumbbell,
+};
 
 export default function Codex() {
   return (
@@ -13,27 +19,22 @@ export default function Codex() {
         numeral="I"
         label="The Codex"
         title="A chronicle of study & craft"
-        kicker="Who I am, where I trained, and the coursework that shaped how I build. Two of the courses below have trials you can actually play."
+        kicker="Who I am, where I trained, what I do when I'm not at a keyboard, and the coursework that shaped how I build."
       />
 
       {/* ---- Author plate + biography ---- */}
       <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <figure data-reveal className="engraved mx-auto w-full max-w-md self-start bg-crypt p-4">
-          <div className="relative aspect-[520/528] overflow-hidden bg-void">
+          <div className="relative aspect-[4/5] overflow-hidden bg-void">
             <Image
-              src="/images/portrait-dither.png"
-              alt="Dithered portrait of Elijah Cortez, seated in a dark jacket"
-              width={520}
-              height={528}
-              unoptimized
-              className="h-full w-full object-cover [image-rendering:pixelated]"
+              src="/images/ME.jpg"
+              alt="Elijah Cortez seated in a booth, wearing a dark zip jacket"
+              fill
+              sizes="(min-width: 1024px) 28rem, 90vw"
+              className="object-cover object-[60%_40%]"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent" />
           </div>
-          <figcaption className="label mt-3 flex justify-between">
-            <span>Fig. II — The Author</span>
-            <span className="text-ash-dim">1-bit · Atkinson</span>
-          </figcaption>
+          <figcaption className="label mt-3">Fig. II — The Author</figcaption>
         </figure>
 
         <div>
@@ -67,6 +68,49 @@ export default function Codex() {
             ))}
           </dl>
         </div>
+      </div>
+
+      {/* ---- Beyond the code ---- */}
+      <div className="mt-28">
+        <h3 className="label mb-4 flex items-center gap-3">
+          <span className="text-bone">✠</span> When the forge cools
+        </h3>
+        <p className="mb-10 max-w-3xl font-serif text-3xl leading-tight text-parchment md:text-4xl">
+          Away from the editor I draw, paint and tattoo, work on my car, and train.
+        </p>
+        <ul data-reveal-lines className="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 xl:grid-cols-4">
+          {pursuits.map((p) => {
+            const Icon = PURSUIT_ICONS[p.id];
+            return (
+              <li key={p.id} className="flex flex-col bg-void p-6 md:p-7">
+                <div className="flex items-center justify-between">
+                  <span className="label">{p.label}</span>
+                  <Icon size={18} strokeWidth={1.2} className="text-ash" aria-hidden />
+                </div>
+                <h4 className="mt-6 font-serif text-3xl leading-none text-parchment">{p.title}</h4>
+                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={`${p.label} interests`}>
+                  {p.items.map((i) => (
+                    <li key={i} className="tag text-bone">
+                      {i}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-lg leading-relaxed text-ash">{p.note}</p>
+                {p.link && (
+                  <a
+                    href={p.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="label link-underline mt-auto inline-flex items-center gap-1.5 self-start pt-5 text-bone"
+                  >
+                    {p.link.label} <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
       {/* ---- Chronicle ---- */}
@@ -104,19 +148,6 @@ export default function Codex() {
         <CourseMap />
       </div>
 
-      {/* ---- Trials ---- */}
-      <div className="mt-32">
-        <h3 className="label mb-4 flex items-center gap-3">
-          <span className="text-bone">✠</span> The Trials
-        </h3>
-        <p className="mb-10 max-w-2xl font-serif text-3xl leading-tight text-parchment md:text-4xl">
-          Two courses, made playable.
-        </p>
-        <div className="grid gap-8 xl:grid-cols-2">
-          <SqlConsole />
-          <SecurityTrial />
-        </div>
-      </div>
     </section>
   );
 }

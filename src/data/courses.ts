@@ -65,6 +65,7 @@ export const courses: Course[] = [
   { code: "COMP 482", title: "Algorithm Design", term: "Spring 2026", year: 2026, units: 3, domain: "theory",
     topics: "Greedy, divide-and-conquer, dynamic programming and network-flow techniques, with proofs of correctness and running time." },
   { code: "COMP 484", title: "Web Engineering I + Lab", term: "Spring 2026", year: 2026, units: 3, domain: "web", featured: true,
+    projects: ["frs-story", "cs-sim", "map-quiz", "typeit"],
     topics: "Building for the web end to end: HTML, CSS, JavaScript, client–server architecture and deployment." },
   { code: "COMP 491", title: "Senior Project II + Lab", term: "Spring 2026", year: 2026, units: 3, domain: "engineering", featured: true,
     projects: ["toro-campus-connect"],

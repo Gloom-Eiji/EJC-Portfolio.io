@@ -1,13 +1,11 @@
-// The Archives. Content is drawn from the résumé, the previous portfolio, and
-// the public repositories. Add a project by appending an object here.
+// The Archives. Featured projects get a full dossier; "lesser works" appear in
+// a compact ledger below. Add a project by appending an object here.
 //
-// TODO(owner): projects mentioned in the planning brief but not yet documented
-// anywhere — add them here once details are confirmed:
-//   - ComboCraft (martial arts / fitness application)
-//   - Campus navigation concepts
-//   - AI / ML or cybersecurity work beyond what is listed below
+// TODO(owner): ComboCraft and Quickdraw Wildlands have no public repo or
+// write-up yet, so their entries only say what is known. Fill in `timeframe`,
+// `role`, `overview`, `highlights`, `stack` and `links` when you can.
 // TODO(owner): add screenshots by placing files in /public/images/projects and
-// listing them in `images` — the dossier shows a gallery when any exist.
+// listing them in `images`. The dossier shows a gallery when any exist.
 
 export type ProjectLink = { label: string; href: string };
 
@@ -76,14 +74,37 @@ export const projects: Project[] = [
    ___||____|___|   |___||____|___`,
   },
   {
-    id: "hotel-booking",
+    id: "combocraft",
     numeral: "II",
-    title: "Hotel Booking Web App",
-    category: "Team Project · Full-Stack",
+    title: "ComboCraft",
+    category: "Martial Arts · Fitness App",
+    summary: "A martial arts and fitness application.",
+    overview: [
+      "ComboCraft is a martial arts and fitness application. It brings together my two worlds: building software, and training Muay Thai, Brazilian jiu-jitsu and boxing.",
+    ],
+    highlights: [],
+    stack: [],
+    links: [],
+    emblem: String.raw`
+          ____                     ____
+        /'    '\                 /'    '\
+       |  .--.  |   ~  ~  ~>  |  .--.  |
+       |  |  |  |             |  |  |  |
+       |  '--'  |             |  '--'  |
+        \______/               \______/
+         |____|                 |____|
+    -----------------------------------------
+      JAB  ->  CROSS  ->  HOOK  ->  KNEE`,
+  },
+  {
+    id: "hotel-ocean-vista",
+    numeral: "III",
+    title: "Hotel Ocean Vista",
+    category: "Team Project · Full-Stack Web",
     timeframe: "Feb — May 2025",
     role: "Full-stack developer",
     summary:
-      "A Flask booking platform with an AWS-backed database, an interactive 3D room viewer, and an LLM chatbot concierge.",
+      "A Flask booking site for Hotel Ocean Vista with an AWS-backed database, an interactive 3D room viewer, and an LLM chatbot concierge.",
     overview: [
       "A hotel booking platform built on Flask with an AWS database backend, designed around better user retention, clearer navigation flow and easier-to-digest information.",
       "Guests can explore an interactive 3D model of a room in virtual space before booking, and ask an LLM-powered chatbot for help with reservations and local information.",
@@ -106,81 +127,118 @@ export const projects: Project[] = [
            |  |___| |___| |___|
            |       _____       |
            |  o-+ |  |  |      |
-           |      |  |  |      |
-       ____|______|__|__|______|____`,
+      ~~   |      |  |  |      |   ~~
+    ~~~~~~~|______|__|__|______|~~~~~~~`,
   },
   {
-    id: "pipeline-tools",
-    numeral: "III",
-    title: "Post-Production Pipeline Tools",
-    category: "Automation · Multimedia Systems",
-    timeframe: "Aug — Dec 2025",
-    course: "COMP 467",
-    summary:
-      "Three Python command-line tools that automate real post-production workflows: proxies and metadata, QA reporting, and frame-accurate marks.",
-    overview: [
-      "A suite of Python CLI tools built for Multimedia Systems, modeled on the workflows of professional post-production and VFX houses.",
-      "VFX Tools Script — automated metadata handling and proxy/thumbnail generation with argparse-driven CLI parsing and batch FFmpeg processing, plus custom watermarking to speed up editorial requests.",
-      "QA Automation Script — populates a database with global QA reports, mirroring enterprise QA workflows end to end and generating blocker, repeat-issue and per-user reports.",
-      "Marks Automation Script — parses proprietary Baselight machine data to resolve frame positions and filesystem paths in seconds, then exports CSV/XLS with timecode and Vimeo thumbnail previews.",
-    ],
-    highlights: [
-      "Batch media processing with FFmpeg behind a clean argparse CLI",
-      "Database-backed QA reporting that mirrors enterprise workflows",
-      "Frame-level path resolution from Baselight data",
-      "CSV / XLS exports with timecode and Vimeo API thumbnails",
-    ],
-    stack: ["Python", "FFmpeg", "argparse", "Database", "Vimeo API", "CSV / XLS"],
-    links: [],
-    emblem: String.raw`
-        .-------------------------.
-        | [] [] [] [] [] [] [] [] |
-        |-------------------------|
-        |  ffmpeg -i reel.mov \   |
-        |    -vf scale=640:-1 \   |
-        |    proxy_%04d.jpg       |
-        |  > 00:01:12:04  OK      |
-        |  > 00:01:12:05  OK      |
-        |  > marks.xls   WRITTEN  |
-        |-------------------------|
-        | [] [] [] [] [] [] [] [] |
-        '-------------------------'`,
-  },
-  {
-    id: "indie-platformer",
+    id: "quickdraw-wildlands",
     numeral: "IV",
-    title: "Indie Platformer",
-    category: "Game Dev · Unity",
-    role: "Art director & 2D artist",
-    team: "Small team",
-    summary:
-      "A 2D platformer built in Unity, where I directed the art and produced the textures, assets and animation.",
-    overview: [
-      "A Unity-based 2D platformer built with a small team.",
-      "As art director I designed the 2D assets, textures and animations, and worked on gameplay systems, level design and integrating assets into the engine.",
-    ],
-    highlights: [
-      "Art direction and visual identity for the game",
-      "2D asset, texture and animation production",
-      "Gameplay systems, level design and asset integration",
-    ],
-    stack: ["Unity", "C#", "Art Direction", "Level Design", "Photoshop"],
+    title: "Quickdraw Wildlands",
+    category: "Game Dev · Roblox",
+    summary: "A game built on Roblox.",
+    overview: ["Quickdraw Wildlands is a game I built on the Roblox platform."],
+    highlights: [],
+    stack: ["Roblox Studio"],
     links: [],
     emblem: String.raw`
-                        *         .
-          .     _o_          ___
-               / | \  -->   |?? |
-                /_\         |___|
-          ______________
-         |##|##|##|##|##|      ______
-                              |##|##|
-          ^^^^^           ____|##|##|
-         |##|##|         |##|##|##|##|
-    _____|##|##|_________|##|##|##|##|___`,
+           \   |   /
+         --   (_)   --        __________
+           /   |   \       __/          \__
+       ,                 _/                \_
+      | |  ,            |   W A N T E D     |
+    __| |_| |           |    - - - - -      |
+      | | __|  ,        |                   |
+      | ||    | |       |___________________|
+   ___|_|_____|_|______________________________`,
   },
 ];
 
-// "Oaths yet sworn" — ambitions listed on the previous portfolio.
+// Smaller works for the ledger: course projects, tools and experiments.
+export type LesserWork = {
+  id: string;
+  title: string;
+  kind: string;
+  when?: string;
+  text: string;
+  stack: string[];
+  links: ProjectLink[];
+};
+
+export const lesserWorks: LesserWork[] = [
+  {
+    id: "frs-story",
+    title: "FR-S Story",
+    kind: "COMP 484 · Web",
+    when: "2026",
+    text: "A multi-page site about my 2013 Scion FR-S: the history of the 86 / FR-S / BRZ platform, my build journey, a photo gallery and a small visual novel.",
+    stack: ["HTML", "CSS"],
+    links: [
+      { label: "Live", href: "https://gloom-eiji.github.io/484Project1/" },
+      { label: "Repo", href: "https://github.com/Gloom-Eiji/484Project1" },
+    ],
+  },
+  {
+    id: "cs-sim",
+    title: "My Little CS Amateur",
+    kind: "COMP 484 · Browser game",
+    when: "2026",
+    text: "A virtual-pet sim of CS student life. Keep EJ fed, rested and happy while coding, gaming, working out and sending job applications.",
+    stack: ["JavaScript", "HTML", "CSS"],
+    links: [
+      { label: "Live", href: "https://gloom-eiji.github.io/484_Project2.io/" },
+      { label: "Repo", href: "https://github.com/Gloom-Eiji/484_Project2.io" },
+    ],
+  },
+  {
+    id: "map-quiz",
+    title: "CSUN Map Quiz",
+    kind: "COMP 484 · Maps",
+    when: "2026",
+    text: "A timed campus-geography quiz on the Google Maps API. Double-click the map to locate places around CSUN.",
+    stack: ["JavaScript", "Google Maps API"],
+    links: [{ label: "Repo", href: "https://github.com/Gloom-Eiji/484_Project5.io" }],
+  },
+  {
+    id: "typeit",
+    title: "typeit.",
+    kind: "COMP 484 · Web app",
+    when: "2026",
+    text: "A timed typing test that tracks words per minute and errors, with a top-three leaderboard.",
+    stack: ["JavaScript", "HTML", "CSS"],
+    links: [
+      { label: "Live", href: "https://gloom-eiji.github.io/484_Project4.io/" },
+      { label: "Repo", href: "https://github.com/Gloom-Eiji/484_Project4.io" },
+    ],
+  },
+  {
+    id: "pipeline-tools",
+    title: "Post-Production Pipeline Tools",
+    kind: "COMP 467 · Automation",
+    when: "2025",
+    text: "Three Python CLI tools: FFmpeg proxies, thumbnails and watermarks; database-backed QA reporting; and frame-accurate Baselight marks exported to CSV/XLS with Vimeo thumbnails.",
+    stack: ["Python", "FFmpeg", "argparse", "Vimeo API"],
+    links: [],
+  },
+  {
+    id: "indie-platformer",
+    title: "Indie Platformer",
+    kind: "Game dev · Unity",
+    text: "A 2D platformer made with a small team. I was art director, producing the 2D assets, textures and animation, and worked on level design and asset integration.",
+    stack: ["Unity", "C#", "Photoshop"],
+    links: [],
+  },
+];
+
+/** Resolves an id from either list, for cross-links from the Armory and Codex. */
+export function findWork(id: string) {
+  const p = projects.find((x) => x.id === id);
+  if (p) return { title: p.title, featured: true as const };
+  const w = lesserWorks.find((x) => x.id === id);
+  if (w) return { title: w.title, featured: false as const };
+  return null;
+}
+
+// "Oaths yet sworn": ambitions listed on the previous portfolio.
 export const futureScope = [
   {
     kind: "Unity",
