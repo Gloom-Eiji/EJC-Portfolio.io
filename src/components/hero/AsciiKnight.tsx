@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ART_H, ART_W, drawKnight } from "./knight-art";
+import { ARMET_SRC, ART_H, ART_W, drawArmet } from "./armet-art";
 
-const RAMP = " .`:-=+*#%@";
+// Dark → bright. Few, clearly distinct densities keep the shapes legible.
+const RAMP = " .,:;-=+*#%@";
 const SCRAMBLE = "#$%&@*+=?/\\|<>01ΞΨ†";
 const FPS = 20;
 
@@ -38,15 +39,17 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
     let fontFamily = "monospace";
     let noise = new Float32Array(0);
     let lum = new Float32Array(0);
+    let eqBuf = new Float32Array(0);
 
     const art = document.createElement("canvas");
     const artCtx = art.getContext("2d")!;
     const small = document.createElement("canvas");
     const smallCtx = small.getContext("2d", { willReadFrequently: true })!;
+    let img: HTMLImageElement | null = null;
 
     function layout() {
       const narrow = window.innerWidth < 640;
-      rows = narrow ? 50 : 66;
+      rows = narrow ? 60 : 90;
       cols = Math.round((rows * (ART_W / ART_H)) / 0.6);
       fontFamily =
         getComputedStyle(document.documentElement).getPropertyValue("--font-plex-mono").trim() || "monospace";
@@ -75,16 +78,72 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
       small.height = rows;
       noise = new Float32Array(cols * rows).map(() => Math.random());
       lum = new Float32Array(cols * rows);
+      eqBuf = new Float32Array(cols * rows);
     }
 
     function sample() {
+      if (!img) return;
       artCtx.setTransform(art.width / ART_W, 0, 0, art.height / ART_H, 0, 0);
-      drawKnight(artCtx, state.t);
+      drawArmet(artCtx, img, state.t);
       smallCtx.imageSmoothingEnabled = true;
       smallCtx.imageSmoothingQuality = "high";
       smallCtx.drawImage(art, 0, 0, cols, rows);
       const d = smallCtx.getImageData(0, 0, cols, rows).data;
-      for (let i = 0; i < cols * rows; i++) lum[i] = d[i * 4] / 255;
+      const n = cols * rows;
+      for (let i = 0; i < n; i++) lum[i] = d[i * 4] / 255;
+
+      // Histogram-equalize the armor so mid-tones spread across the whole ramp.
+      const BINS = 64;
+      const hist = new Float32Array(BINS);
+      let fg = 0;
+      for (let i = 0; i < n; i++) {
+        if (lum[i] > 0.03) {
+          hist[Math.min(BINS - 1, (lum[i] * BINS) | 0)]++;
+          fg++;
+        }
+      }
+      if (fg > 0) {
+        for (let b = 1; b < BINS; b++) hist[b] += hist[b - 1];
+        // Local contrast: compare each cell with its neighbourhood mean (via an
+        // integral image) so slots, ridges and plate edges read clearly.
+        const W1 = cols + 1;
+        const integ = new Float32Array(W1 * (rows + 1));
+        for (let y = 0; y < rows; y++) {
+          let rowSum = 0;
+          for (let x = 0; x < cols; x++) {
+            rowSum += lum[y * cols + x];
+            integ[(y + 1) * W1 + x + 1] = integ[y * W1 + x + 1] + rowSum;
+          }
+        }
+        const R = 3;
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            const i = y * cols + x;
+            const l = lum[i];
+            if (l <= 0.03) continue;
+            const x0 = Math.max(0, x - R), x1 = Math.min(cols, x + R + 1);
+            const y0 = Math.max(0, y - R), y1 = Math.min(rows, y + R + 1);
+            const mean =
+              (integ[y1 * W1 + x1] - integ[y0 * W1 + x1] - integ[y1 * W1 + x0] + integ[y0 * W1 + x0]) /
+              ((x1 - x0) * (y1 - y0));
+            const eq = hist[Math.min(BINS - 1, (l * BINS) | 0)] / fg;
+            const v = 0.04 + 0.74 * eq + 0.18 * l + 1.1 * (l - mean);
+            eqBuf[i] = Math.min(1, Math.max(0.06, Math.pow(Math.max(0, v), 0.7)));
+          }
+        }
+        // Fade the cropped bottom and right edges after tone mapping, so the
+        // equalization can't lift them back up.
+        for (let y = 0; y < rows; y++) {
+          const fy = Math.min(1, Math.max(0, (rows * 0.98 - y) / (rows * 0.36)));
+          for (let x = 0; x < cols; x++) {
+            const i = y * cols + x;
+            if (lum[i] <= 0.03) continue;
+            const fx = y > rows * 0.45 ? Math.min(1, Math.max(0, (cols * 0.99 - x) / (cols * 0.16))) : 1;
+            const f = fy * fy * fx;
+            lum[i] = f < 0.05 ? 0 : eqBuf[i] * f;
+          }
+        }
+      }
     }
 
     const buckets: { x: number; y: number; c: string }[][] = Array.from({ length: 8 }, () => []);
@@ -120,12 +179,12 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
             c = SCRAMBLE[(Math.random() * SCRAMBLE.length) | 0];
             l = 1;
           } else {
-            if (l < 0.035 && lit < 0.2) continue;
+            if (l < 0.04 && lit < 0.2) continue;
             // Sobel edges become line glyphs, flat regions use the ramp
             const gx = L(x + 1, y - 1) + 2 * L(x + 1, y) + L(x + 1, y + 1) - L(x - 1, y - 1) - 2 * L(x - 1, y) - L(x - 1, y + 1);
             const gy = L(x - 1, y + 1) + 2 * L(x, y + 1) + L(x + 1, y + 1) - L(x - 1, y - 1) - 2 * L(x, y - 1) - L(x + 1, y - 1);
             const mag = Math.sqrt(gx * gx + gy * gy);
-            if (mag > 1.45 && l > 0.06) {
+            if (mag > 2.5 && l > 0.12) {
               const a = ((Math.atan2(gy, gx) % Math.PI) + Math.PI) % Math.PI;
               const P = Math.PI;
               c = a < P / 8 || a >= (7 * P) / 8 ? "|" : a < (3 * P) / 8 ? "/" : a < (5 * P) / 8 ? "-" : "\\";
@@ -156,7 +215,7 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
       for (let b = 0; b < 8; b++) {
         const list = buckets[b];
         if (!list.length) continue;
-        const alpha = 0.16 + (b / 7) * 0.84;
+        const alpha = 0.42 + (b / 7) * 0.58;
         ctx!.fillStyle = b === 7 ? `rgba(235,230,220,${alpha})` : `rgba(208,204,196,${alpha})`;
         for (const g of list) ctx!.fillText(g.c, g.x * cw, g.y * ch);
       }
@@ -231,6 +290,14 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
     document.addEventListener("visibilitychange", onVis);
 
     let cancelled = false;
+    const source = new Image();
+    source.decoding = "async";
+    source.onload = () => {
+      if (cancelled) return;
+      img = source;
+      render();
+    };
+    source.src = ARMET_SRC;
     document.fonts?.ready.then(() => {
       if (cancelled) return;
       layout();
@@ -256,7 +323,7 @@ export default function AsciiKnight({ className = "" }: { className?: string }) 
     <div className={className}>
       <canvas ref={canvasRef} className="mx-auto block max-w-full" aria-hidden />
       <span className="sr-only">
-        An animated ASCII-art knight in a great helm, hands resting on a planted sword.
+        An animated ASCII-art rendering of a knight&apos;s armet helmet in profile, its beaked visor engraved with scrollwork.
       </span>
     </div>
   );
